@@ -14,8 +14,8 @@ class SMTPRegularEmailNotificationServiceTest extends IntegrationTest {
   "[Email] SMTP regular" should {
     "send successfully" in {
       assert(notificationDelivery.send(SMTPEmailNotification(
-        from = "phuong@rever.vn",
-        to = List("phuong@rever.vn", "duy@rever.vn", "quang@rever.vn"),
+        from = "myemail@gmail.com",
+        to = List("user1@gmail.com", "user2@gmail.com"),
         msg = ("Hello", "this is a test email")
       )))
     }

@@ -24,14 +24,10 @@ case class SMTPEmailNotificationDelivery(configKey: String = "email") extends No
 
   private[this] val session = {
     val props = new Properties()
-//    props.put("mail.smtp.host", ZConfig.getString(s"$configKey.host"))
-//    props.put("mail.smtp.port", ZConfig.getString(s"$configKey.port"))
-//    props.put("mail.smtp.auth", ZConfig.getString(s"$configKey.auth"))
-//    props.put("mail.smtp.starttls.enable", ZConfig.getString(s"$configKey.tls"))
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.host", "smtp.gmail.com");
-    props.put("mail.smtp.port", "587");
+    props.put("mail.smtp.host", ZConfig.getString(s"$configKey.host"))
+    props.put("mail.smtp.port", ZConfig.getString(s"$configKey.port"))
+    props.put("mail.smtp.auth", ZConfig.getString(s"$configKey.auth"))
+    props.put("mail.smtp.starttls.enable", ZConfig.getString(s"$configKey.tls"))
     Session.getInstance(props, new Authenticator {
       override protected def getPasswordAuthentication: PasswordAuthentication = {
         new PasswordAuthentication(
