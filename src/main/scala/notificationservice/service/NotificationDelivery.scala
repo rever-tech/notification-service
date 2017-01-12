@@ -27,10 +27,10 @@ abstract class EmailNotificationDelivery extends NotificationDelivery
 //case class CourierEmailNotificationDelivery(notification: Notification)
 
 
-class SlackNotification(from: String, to: List[String], msg: AnyRef) extends Notification("SLACK", from, to, msg)
-
-case class SlackNotificationDelivery(notification: SlackNotification) extends NotificationDelivery {
-  override def send(notification: Notification): Boolean = {
-    false
-  }
-}
+//class SlackNotification(from: String, to: List[String], msg: AnyRef) extends Notification("SLACK", from, to, msg)
+//
+//case class SlackNotificationDelivery(notification: SlackNotification) extends NotificationDelivery {
+//  override def send(notification: Notification): Boolean = {
+//    false
+//  }
+//}
