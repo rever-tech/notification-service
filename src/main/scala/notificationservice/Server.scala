@@ -6,11 +6,7 @@ import com.twitter.finatra.http.filters.CommonFilters
 import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.thrift.ThriftServer
 import com.twitter.finatra.thrift.routing.ThriftRouter
-import notification-service.controller.http
-import notification-service.controller.http.HealthController
-import notification-service.controller.thrift.CacheController
-import notification-service.module.UserCacheModule
-import notification-service.util.ZConfig
+import notificationservice.util.ZConfig
 
 /**
   * Created by SangDang on 9/8/

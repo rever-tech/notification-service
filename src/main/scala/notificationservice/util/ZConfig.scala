@@ -1,4 +1,4 @@
-package notification-service.util
+package notificationservice.util
 
 import java.io.{File, PrintStream}
 

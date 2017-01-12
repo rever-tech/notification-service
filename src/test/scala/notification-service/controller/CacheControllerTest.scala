@@ -1,4 +1,4 @@
-package notification-service.controller
+package notificationservice.controller
 
 import java.net.InetSocketAddress
 
@@ -11,11 +11,6 @@ import com.twitter.finagle.http.Status.Ok
 import com.twitter.finagle.thrift.ThriftClientFramedCodec
 import com.twitter.util.Future
 import org.scalatest.Assertions
-import notification-service.Server
-import notification-service.domain.UserID
-import notification-service.domain.thrift.{TUserID, TUserInfo}
-import notification-service.service.TUserCacheService.FinagledClient
-import notification-service.service.{TUserCacheService, UserCacheService}
 
 /**
   * Created by SangDang on 9/18/16.
