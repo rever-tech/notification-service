@@ -1,4 +1,4 @@
-package notification-service
+package notificationservice
 
 
 import com.twitter.finatra.http.HttpServer
@@ -6,6 +6,7 @@ import com.twitter.finatra.http.filters.CommonFilters
 import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.thrift.ThriftServer
 import com.twitter.finatra.thrift.routing.ThriftRouter
+import notificationservice.module.NotificationServiceModule
 import notificationservice.util.ZConfig
 
 /**
@@ -20,16 +21,14 @@ class Server extends HttpServer with ThriftServer {
 
   override protected def disableAdminHttpServer: Boolean = ZConfig.getBoolean("server.admin.disable",true)
 
-  override val modules = Seq(UserCacheModule)
+  override val modules = Seq(NotificationServiceModule)
 
   override protected def configureHttp(router: HttpRouter): Unit = {
     router.filter[CommonFilters]
-      .add[http.CacheController]
-      .add[HealthController]
+
   }
 
   override protected def configureThrift(router: ThriftRouter): Unit = {
-    router
-      .add[CacheController]
+
   }
 }
