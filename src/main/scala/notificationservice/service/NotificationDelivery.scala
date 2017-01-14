@@ -26,7 +26,7 @@ case class VHTSMSNotificationDelivery() extends SMSNotificationDelivery {
   val apiKey = ZConfig.getString("vht_sms_service.api_key")
   val apiSecret = ZConfig.getString("vht_sms_service.api_secret")
   val brandName = ZConfig.getString("vht_sms_service.brand_name")
-  val template = ZConfig.getString("vht_sms_service", "")
+  val template = ZConfig.getString("vht_sms_service.template", "")
 
   val smsLogger = LoggerUtils.getLogger("SMSNotificationLog")
 
@@ -47,7 +47,7 @@ case class VHTSMSNotificationDelivery() extends SMSNotificationDelivery {
       VHTMessageInfo(id, brandName, message, f)
     })
     val submission = SubmissionReq(apiKey, apiSecret, listSms)
-    val sendData = JsonParser.toJson[VHTSendMessageRequest](VHTSendMessageRequest(submission))
+    val sendData = JsonParser.toJson[VHTSendMessageRequest](VHTSendMessageRequest(submission), false)
     // send response
     val resp = Http(urlSendCode).postData(sendData).asString
     val err = systemStatusConfig.getString(resp.code + "", s"Undefined http code:${resp.code}")
@@ -57,7 +57,7 @@ case class VHTSMSNotificationDelivery() extends SMSNotificationDelivery {
       val numFailed = getStatusMessage(from, message, mapPhoneMsgID, sendMsgResp.submission.sms)
       if (numFailed == to.size) false else true
     } else {
-      smsLogger.error(s"$from\t$to\t$message\t$err\t$sendData\t${resp.code}\t${resp.body}")
+      smsLogger.error(s"$from\t${to.mkString("[", ",", "]")}\t${message.stripMargin('\n')}\t$err\t$sendData\t${resp.code}\t${resp.body}")
       false
     }
   }
@@ -65,7 +65,7 @@ case class VHTSMSNotificationDelivery() extends SMSNotificationDelivery {
   def getStatusMessage(from: String, message: String, mapMsgID: Map[String, String], sms: Seq[VHTMessageInfoResponse]): Int = {
     sms.map(result => {
       val msg = msgStatusConfig.getString(result.status + "", s"Undefined error status code: ${result.status}")
-      smsLogger.info(s"$from\t${result.id}\t${mapMsgID.getOrElse(result.id, "")}\t$message\t${result.status}\t$msg")
+      smsLogger.info(s"$from\t${result.id}\t${mapMsgID.getOrElse(result.id, "")}\t${message.stripMargin('\n')}\t${result.status}\t$msg")
       if (msg.isEmpty) 0 else 1
     }).sum
   }

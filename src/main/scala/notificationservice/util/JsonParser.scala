@@ -14,8 +14,8 @@ object JsonParser {
 
   val mapper = new ObjectMapper() with ScalaObjectMapper
   mapper.registerModule(DefaultScalaModule)
-//  mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false)
-//  mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
+  //  mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false)
+  //  mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
   mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
   mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
@@ -29,6 +29,11 @@ object JsonParser {
     mapper.writerWithDefaultPrettyPrinter().writeValueAsString(t)
   }
 
+  def toJson[T](t: T, pretty: Boolean): String = {
+    if (pretty) mapper.writerWithDefaultPrettyPrinter().writeValueAsString(t)
+    else mapper.writeValueAsString(t)
+  }
+
   private[this] def typeReference[T: Manifest] = new TypeReference[T] {
     override def getType: Type = typeFromManifest(manifest[T])
   }
@@ -39,7 +44,9 @@ object JsonParser {
     }
     else new ParameterizedType {
       def getRawType = m.runtimeClass
+
       def getActualTypeArguments = m.typeArguments.map(typeFromManifest).toArray
+
       def getOwnerType = null
     }
   }
