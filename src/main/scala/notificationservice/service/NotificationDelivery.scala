@@ -64,7 +64,7 @@ case class VHTSMSNotificationDelivery() extends SMSNotificationDelivery {
 
   def getStatusMessage(from: String, message: String, mapMsgID: Map[String, String], sms: Seq[VHTMessageInfoResponse]): Int = {
     sms.map(result => {
-      val msg = msgStatusConfig.getString(result.status + "", s"Undefined error status code: ${result.status}")
+      val msg = msgStatusConfig.getString(result.status + "", s"Undefined error status code: ${result.status}, msg: ${result.errorMessage}")
       smsLogger.info(s"$from\t${result.id}\t${mapMsgID.getOrElse(result.id, "")}\t${message.stripMargin('\n')}\t${result.status}\t$msg")
       if (msg.isEmpty) 0 else 1
     }).sum

@@ -19,4 +19,4 @@ case class VHTSendMessageResponse(submission: SubmissionResp)
 
 case class SubmissionResp(sms: Seq[VHTMessageInfoResponse])
 
-case class VHTMessageInfoResponse(id: String, status: Int)
+case class VHTMessageInfoResponse(id: String, status: Int, @JsonProperty("error_message") errorMessage: String = "")
