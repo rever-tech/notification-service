@@ -14,12 +14,6 @@ import scala.language.implicitConversions
  * Created by phuonglam on 1/12/17.
  **/
 
-class SMTPEmailNotification(override val from: String, override val to: List[String], msg: AnyRef) extends EmailNotification(from, to, msg)
-
-object SMTPEmailNotification {
-  def apply(from: String, to: List[String], msg: AnyRef) = new SMTPEmailNotification(from, to, msg)
-}
-
 case class SMTPEmailNotificationDelivery(configKey: String = "email") extends NotificationDelivery() with Logging {
 
   private[this] val session = {
@@ -39,7 +33,7 @@ case class SMTPEmailNotificationDelivery(configKey: String = "email") extends No
   val subject = ZConfig.getString(s"$configKey.default_subject", "")
 
   override def send(notification: Notification): Boolean = try {
-    val courier = notification.asInstanceOf[SMTPEmailNotification]
+    val courier = notification.asInstanceOf[EmailNotification]
     val msg = new MimeMessage(session) {
       setFrom(courier.from)
       courier.to.foreach(addRecipient(Message.RecipientType.TO, _))

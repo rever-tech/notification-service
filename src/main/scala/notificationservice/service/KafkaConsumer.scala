@@ -46,13 +46,15 @@ class KafkaDeliveryConsumerImpl @Inject()(
   properties: Map[String, Object],
   deliveryServices: Map[String, NotificationDelivery]
 ) extends KafkaDeliveryConsumer[String](topic, minBashSize, properties) with Logging {
+
   override def exec(datas: Seq[String]): Unit = {
     datas.foreach(data => {
       val notification = JsonParser.fromJson[Notification](data)
       deliveryServices.get(notification.notificationType) match {
-        case Some(service) => if (service.send(notification)) error(s"1\t0\t$data")
-        case _ => error(s"0\t0\t$data")
+        case Some(service) => if (service.send(notification)) error(s"Delivery failed ($data)")
+        case _ => error(s"No delivery found for ${notification.notificationType} ($data)")
       }
     })
   }
+
 }

@@ -4,7 +4,7 @@ import com.google.inject.name.Named
 import com.google.inject.{Provides, Singleton}
 import com.twitter.inject.TwitterModule
 import notificationservice.domain.NotificationType
-import notificationservice.service.{KafkaDeliveryConsumerImpl, NotificationDelivery, SMTPEmailNotificationDelivery}
+import notificationservice.service.{KafkaDeliveryConsumerImpl, NotificationDelivery, SMTPEmailNotificationDelivery, VHTSMSNotificationDelivery}
 import notificationservice.util.ZConfig
 
 /**
@@ -35,5 +35,12 @@ object NotificationServiceModule extends TwitterModule {
   @Named("email")
   def providesEmailNotificationDelivery(): NotificationDelivery = {
     SMTPEmailNotificationDelivery("email")
+  }
+
+  @Singleton
+  @Provides
+  @Named("sms")
+  def providesSMSNotificationDelivery(): NotificationDelivery = {
+    VHTSMSNotificationDelivery()
   }
 }
