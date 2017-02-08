@@ -30,15 +30,13 @@ case class SMTPEmailNotificationDelivery(configKey: String = "email") extends No
     props.put("mail.smtp.starttls.enable", ZConfig.getString(s"$configKey.tls"))
     Session.getInstance(props, new Authenticator {
       override protected def getPasswordAuthentication: PasswordAuthentication = {
-        new PasswordAuthentication(
-          ZConfig.getString(s"$configKey.username"),
-          ZConfig.getString(s"$configKey.password")
+        new PasswordAuthentication(ZConfig.getString(s"$configKey.username"), ZConfig.getString(s"$configKey.password")
         )
       }
     })
   }
 
-  val subject = ZConfig.getString(s"$configKey.default_subject")
+  val subject = ZConfig.getString(s"$configKey.default_subject", "")
 
   override def send(notification: Notification): Boolean = try {
     val courier = notification.asInstanceOf[SMTPEmailNotification]

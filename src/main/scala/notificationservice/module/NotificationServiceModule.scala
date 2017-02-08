@@ -4,7 +4,7 @@ import com.google.inject.name.Named
 import com.google.inject.{Provides, Singleton}
 import com.twitter.inject.TwitterModule
 import notificationservice.domain.NotificationType
-import notificationservice.service.{KafkaDeliveryConsumerImpl, NotificationDelivery}
+import notificationservice.service.{KafkaDeliveryConsumerImpl, NotificationDelivery, SMTPEmailNotificationDelivery}
 import notificationservice.util.ZConfig
 
 /**
@@ -22,7 +22,7 @@ object NotificationServiceModule extends TwitterModule {
 
       val deliveryServices = Map(
         NotificationType.EMAIL -> injector.instance[NotificationDelivery]("email"),
-        NotificationType.SLACK -> injector.instance[NotificationDelivery]("slack"),
+//        NotificationType.SLACK -> injector.instance[NotificationDelivery]("slack"),
         NotificationType.SMS -> injector.instance[NotificationDelivery]("sms")
       )
       val kakkaDeliveryConsumer = new KafkaDeliveryConsumerImpl(topics, minBashSize, properties, deliveryServices)
@@ -34,6 +34,6 @@ object NotificationServiceModule extends TwitterModule {
   @Provides
   @Named("email")
   def providesEmailNotificationDelivery(): NotificationDelivery = {
-
+    SMTPEmailNotificationDelivery("email")
   }
 }
