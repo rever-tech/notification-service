@@ -13,7 +13,7 @@
         <encoding>UTF-8</encoding>
         <scala.version>2.11.8</scala.version>
         <finatra.version>2.2.0</finatra.version>
-
+        <kafka.version>0.10.1.1</kafka.version>
         <mainClass>notification-service.MainApp</mainClass>
     </properties>
     <dependencies>
@@ -37,6 +37,13 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
+        </dependency>
+
+     <!-- Kafka -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
         </dependency>
 
         <!-- Scala -->

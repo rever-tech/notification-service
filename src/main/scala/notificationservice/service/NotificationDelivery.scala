@@ -3,6 +3,7 @@ package notificationservice.service
 /**
  * Created by zkidkid on 1/12/17.
  */
+
 abstract class NotificationDelivery {
   def send(notification: Notification): Boolean
 }

@@ -7,8 +7,8 @@ import com.typesafe.config._
 import scala.collection.JavaConversions._
 
 /**
-  * Created by SangDang on 9/15/16.
-  */
+ * Created by SangDang on 9/15/16.
+ */
 object ZConfig {
   val env = System.getProperty("mode", "development")
   val config = ConfigFactory.load().withFallback(ConfigFactory.parseFile(new File("conf/" + env + ".conf")))
@@ -52,6 +52,8 @@ object ZConfig {
   def getStringList(s: String): List[String] = config.getStringList(s).toList
 
   def getStringList(s: String, default: List[String]): List[String] = if (hasPath(s)) getStringList(s) else default
+
+  def getMap(s: String): Map[String, AnyRef] = config.getObject(s).unwrapped().toMap
 
   def getIsNull(s: String): Boolean = config.getIsNull(s)
 
